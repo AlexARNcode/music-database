@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Album;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AlbumController extends Controller
 {
@@ -12,7 +13,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        //
+        return Album::all();
     }
 
     /**
