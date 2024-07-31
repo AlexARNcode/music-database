@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('albums', function (Blueprint $table) {
             $table->id();
+            $table->string('artist');
             $table->string('name');
             $table->integer('year');
             $table->string('label')->nullable();

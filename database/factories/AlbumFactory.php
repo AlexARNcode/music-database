@@ -17,6 +17,7 @@ class AlbumFactory extends Factory
     public function definition(): array
     {
         return [
+            'artist'    => fake()->lastName(),
             'name'      => fake()->word(),
             'year'      => fake()->year(),
             'label'     => fake()->word(10),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAlbumRequest;
 use App\Models\Album;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,7 +14,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Album::all();
+        return Inertia::render('Albums/Index');
     }
 
     /**
@@ -21,15 +22,27 @@ class AlbumController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Albums/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreAlbumRequest $request)
     {
-        //
+        $image_path = null;
+
+        if ($request->hasFile('image')) {
+            $image_path = $request->file('image')->store('image', 'public');
+        }
+
+        Album::create([
+            'artist'    => $request->get('artist'),
+            'name'      => $request->get('name'),
+            'year'      => $request->get('year'),
+            'label'     => $request->get('label'),
+            'producer'  => $request->get('producer'),
+            'image'     => $image_path,
+        ]);
+
+        return redirect('/albums/create')->with('message', 'Album successfully added!');
     }
 
     /**

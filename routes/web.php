@@ -25,6 +25,13 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/album', [AlbumController::class, 'index'])
-    ->middleware('auth:sanctum')
-    ->name('album');
+Route::prefix('albums')->group(function () {
+    Route::get('/list', [AlbumController::class, 'index'])
+        ->name('album-list');
+
+    Route::get('/create', [AlbumController::class, 'create'])
+        ->name('album-create');
+
+    Route::post('/store', [AlbumController::class, 'store'])
+        ->name('album-store');
+})->middleware('auth:sanctum');
