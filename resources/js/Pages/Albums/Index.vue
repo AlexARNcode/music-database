@@ -31,6 +31,7 @@ const props = defineProps({
             <div class="bg-gray-900 shadow-lg rounded p-3">
               <div class="group relative">
                 <img class="w-full md:w-72 block rounded" :src="`/storage/${album.image}`" alt="" />
+                <Link :href="route('album-show', album.id)">
                 <div
                   class="absolute bg-black rounded bg-opacity-0 group-hover:bg-opacity-60 w-full h-full top-0 flex items-center group-hover:opacity-100 transition justify-evenly">
                   <button
@@ -60,6 +61,7 @@ const props = defineProps({
                     </svg>
                   </button>
                 </div>
+                </Link>
               </div>
               <div class="p-5">
                 <h3 class="text-white text-lg">{{ album.name.toUpperCase() }}</h3>

@@ -28,6 +28,9 @@ Route::prefix('albums')->group(function () {
     Route::get('/list', [AlbumController::class, 'index'])
         ->name('album-list');
 
+    Route::get('/show/{album}', [AlbumController::class, 'show'])
+        ->name('album-show');
+
     Route::get('/create', [AlbumController::class, 'create'])
         ->name('album-create');
 

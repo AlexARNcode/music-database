@@ -49,12 +49,9 @@ class AlbumController extends Controller
         return redirect('/albums/create')->with('message', 'Album successfully added!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Album $album)
     {
-        //
+        return Inertia::render('Albums/Show', ['album' => $album]);
     }
 
     /**
