@@ -14,7 +14,11 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Albums/Index');
+        $albums = Album::all()->where('deleted_at', null);
+
+        return Inertia::render('Albums/Index', [
+            'albums' => $albums
+        ]);
     }
 
     /**
@@ -30,7 +34,7 @@ class AlbumController extends Controller
         $image_path = null;
 
         if ($request->hasFile('image')) {
-            $image_path = $request->file('image')->store('image', 'public');
+            $image_path = $request->file('image')->store('images', 'public');
         }
 
         Album::create([

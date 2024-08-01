@@ -9,21 +9,26 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AlbumFactory extends Factory
 {
-        /**
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
+        $images = [
+            'images/default/Awake.png',
+            'images/default/Dive.jpg',
+            'images/default/Epoch.jpg'
+        ];
+
         return [
             'artist'    => fake()->lastName(),
             'name'      => fake()->word(),
             'year'      => fake()->year(),
             'label'     => fake()->word(10),
             'producer'  => fake()->firstName() . ' ' . fake()->lastName(),
-            'image'     => fake()->image(),
+            'image'     => $images[array_rand($images)]
         ];
     }
-
 }
