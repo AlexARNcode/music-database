@@ -42,4 +42,7 @@ Route::prefix('albums')->group(function () {
 
     Route::post('/update', [AlbumController::class, 'update'])
         ->name('album-update');
+
+    Route::delete('/delete/{album}', [AlbumController::class, 'delete'])
+        ->name('album-delete');
 })->middleware('auth:sanctum');

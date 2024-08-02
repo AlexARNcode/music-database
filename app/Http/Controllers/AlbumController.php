@@ -71,8 +71,10 @@ class AlbumController extends Controller
     }
 
 
-    public function destroy(Album $album)
+    public function delete(Album $album)
     {
-        //
+       $album->delete();
+
+       return redirect()->back()->with('message', 'Album successfully deleted!');
     }
 }
