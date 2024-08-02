@@ -3,15 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAlbumRequest;
+use App\Http\Requests\UpdateAlbumRequest;
 use App\Models\Album;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class AlbumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $albums = Album::all()->where('deleted_at', null);
@@ -21,9 +18,6 @@ class AlbumController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return Inertia::render('Albums/Create');
@@ -54,25 +48,29 @@ class AlbumController extends Controller
         return Inertia::render('Albums/Show', ['album' => $album]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Album $album)
     {
-        //
+        return Inertia::render('Albums/Edit', ['album' => $album]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Album $album)
+
+    public function update(UpdateAlbumRequest $request)
     {
-        //
+        Album::find($request->get('id'))
+            ->update([
+                'artist'    => $request->get('artist'),
+                'name'      => $request->get('name'),
+                'year'      => $request->get('year'),
+                'image'     => $request->get('image'),
+                'label'     => $request->get('label'),
+                'producer'  => $request->get('producer'),
+            ]);
+
+            return redirect()->back()->with('message', 'Album successfully updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Album $album)
     {
         //

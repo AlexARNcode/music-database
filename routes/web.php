@@ -36,4 +36,10 @@ Route::prefix('albums')->group(function () {
 
     Route::post('/store', [AlbumController::class, 'store'])
         ->name('album-store');
+
+    Route::get('/edit/{album}', [AlbumController::class, 'edit'])
+        ->name('album-edit');
+
+    Route::post('/update', [AlbumController::class, 'update'])
+        ->name('album-update');
 })->middleware('auth:sanctum');
