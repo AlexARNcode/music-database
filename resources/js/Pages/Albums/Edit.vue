@@ -1,7 +1,10 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
-import { useForm } from '@inertiajs/vue3';
+import { CheckCircleIcon } from '@heroicons/vue/20/solid';
+import { XMarkIcon } from '@heroicons/vue/20/solid';
+import { useForm, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const props = defineProps({
   album: Object,
@@ -18,13 +21,43 @@ const form = useForm({
   image: props.album.image,
 })
 
+const page = usePage()
+const flashMessage = computed(() => page.props.flash.message)
+
 const submit = () => {
   form.post(route('album-update'), form)
+}
+
+function closeFlashModal() {
+  const flashModal = document.getElementById('flashModal');
+  flashModal.remove()
 }
 </script>
 
 <template>
   <AppLayout title="Edit album">
+    <div v-if="flashMessage" class="text-green-700 font-bold">
+      <div class="rounded-md bg-green-50 p-4" id="flashModal">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <CheckCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
+          </div>
+          <div class="ml-3">
+            <p class="text-sm font-medium text-green-800">{{ flashMessage }}</p>
+          </div>
+          <div class="ml-auto pl-3">
+            <div class="-mx-1.5 -my-1.5">
+              <button @click="closeFlashModal" type="button"
+                class="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
+                <span class="sr-only">Dismiss</span>
+                <XMarkIcon class="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <h1 class="text-xl flex justify-center mt-3">{{ album.name.toUpperCase() }}</h1>
     <h2 class="text-l text-gray-800 flex justify-center">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
 
