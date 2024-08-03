@@ -1,14 +1,13 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPenToSquare, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@/Components/Modal.vue';
-import { computed, ref } from 'vue';
-import { CheckCircleIcon } from '@heroicons/vue/20/solid';
-import { XMarkIcon } from '@heroicons/vue/20/solid';
+import { ref } from 'vue';
+import FlashMessage from '@/Components/FlashMessage.vue';
 
 library.add(faPenToSquare, faTrash, faMagnifyingGlass);
 
@@ -16,9 +15,6 @@ const props = defineProps({
   albums: Object,
   message: Object,
 });
-
-const page = usePage()
-const flashMessage = computed(() => page.props.flash.message)
 
 const showModal = ref(false);
 const albumToDelete = ref(null);
@@ -35,39 +31,13 @@ const hideDeleteConfirmationModal = () => {
 const toggleDeleteConfirmationModal = () => {
   showModal.value = !showModal.value;
 }
-
-function closeFlashModal() {
-  const flashModal = document.getElementById('flashModal');
-  flashModal.remove()
-}
-
 </script>
 
 <template>
   <AppLayout title="List of albums">
-    <h1 class="text-xl flex justify-center mt-3">Albums</h1>
+    <FlashMessage />
 
-    <div v-if="flashMessage" class="text-green-700 font-bold">
-      <div class="rounded-md bg-green-50 p-4" id="flashModal">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <CheckCircleIcon class="h-5 w-5 text-green-400" aria-hidden="true" />
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-green-800">{{ flashMessage }}</p>
-          </div>
-          <div class="ml-auto pl-3">
-            <div class="-mx-1.5 -my-1.5">
-              <button @click="closeFlashModal" type="button"
-                class="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
-                <span class="sr-only">Dismiss</span>
-                <XMarkIcon class="h-5 w-5" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h1 class="text-xl flex justify-center mt-3">Albums</h1>
 
     <Modal :show="showModal">
       <div class="p-8">
