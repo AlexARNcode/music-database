@@ -4,13 +4,13 @@ import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
 import { Link, usePage } from '@inertiajs/vue3';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@/Components/Modal.vue';
 import { computed, ref } from 'vue';
 import { CheckCircleIcon } from '@heroicons/vue/20/solid';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 
-library.add(faPenToSquare, faTrash);
+library.add(faPenToSquare, faTrash, faMagnifyingGlass);
 
 const props = defineProps({
   albums: Object,
@@ -76,7 +76,8 @@ function closeFlashModal() {
           by <span class="font-bold">{{ capitalizeFirstLowercaseRest(albumToDelete.artist) }}</span>?
         </p>
         <div class="flex flex-col">
-          <Link :href="route('album-delete', albumToDelete)" @click.prevent="hideDeleteConfirmationModal" method="delete" as="button" type="button"
+          <Link :href="route('album-delete', albumToDelete)" @click.prevent="hideDeleteConfirmationModal"
+            method="delete" as="button" type="button"
             class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
           Delete
           </Link>
@@ -101,6 +102,7 @@ function closeFlashModal() {
     <main class="grid place-items-center min-h-screen p-5">
       <div>
         <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- Album list -->
           <div v-for="album in props.albums">
             <div class="bg-gray-900 shadow-lg rounded p-3">
               <div class="group relative">
@@ -108,6 +110,8 @@ function closeFlashModal() {
                 <Link :href="route('album-show', album)">
                 <div
                   class="absolute bg-black rounded bg-opacity-0 group-hover:bg-opacity-60 w-full h-full top-0 flex items-center group-hover:opacity-100 transition justify-evenly">
+
+                  <!-- Edit button -->
                   <Link :href="route('album-edit', album)">
                   <button
                     class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
@@ -115,15 +119,13 @@ function closeFlashModal() {
                   </button>
                   </Link>
 
-                  <button
+                  <!-- Show button -->
+                  <Link :href="route('album-show', album)" method="get" as="button" type="button"
                     class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
-                      class="bi bi-play-circle-fill" viewBox="0 0 16 16">
-                      <path
-                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z" />
-                    </svg>
-                  </button>
+                  <font-awesome-icon icon="magnifying-glass" />
+                  </Link>
 
+                  <!-- Delete button -->
                   <button @click.prevent="showDeleteConfirmationModal(album)"
                     class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
                     <font-awesome-icon icon="trash" />
