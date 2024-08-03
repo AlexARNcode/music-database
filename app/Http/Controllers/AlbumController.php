@@ -75,6 +75,6 @@ class AlbumController extends Controller
     {
        $album->delete();
 
-       return redirect()->back()->with('message', 'Album successfully deleted!');
+       return redirect('/albums/list')->with('message', 'Album successfully deleted!');
     }
 }

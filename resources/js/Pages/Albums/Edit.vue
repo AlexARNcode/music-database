@@ -32,7 +32,7 @@ const submit = () => {
     <h2 class="text-l text-gray-800 flex justify-center">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
 
     <div class="flex justify-center mt-4">
-      <img class="sm:w-50 lg:w-100 block rounded" :src="`/storage/${album.image}`" alt="" />
+      <img class="sm:w-1/2 lg:w-1/5 block rounded" :src="`/storage/${album.image}`" alt="" />
     </div>
 
     <div class="flex justify-center mt-3">
