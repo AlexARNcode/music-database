@@ -1,0 +1,19 @@
+{
+    "albums": {
+      "title": "Albums",
+      "delete_confirm": "Êtes-vous sûr de vouloir supprimer {name} par {artist} ?",
+      "not_any": "Il n'y a actuellement aucun album dans la base de données.",
+      "add": "Vous pouvez ajouter des albums ici.",
+      "label": "Label",
+      "year": "Année",
+      "producer": "Producteur"
+    },
+    "buttons": {
+      "show": "Voir",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "cancel": "Annuler",
+      "submit": "Valider"
+    }
+  }
+  

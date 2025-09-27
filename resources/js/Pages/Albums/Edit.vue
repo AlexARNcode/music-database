@@ -39,7 +39,7 @@ const submit = () => {
       <div class="flex flex-col max-w-md mt-4">
         <form @submit.prevent="submit">
           <div class="flex flex-col max-w-md">
-            <label for="year">Year:</label>
+            <label for="year">{{ $t('albums.year') }}</label>
             <input id="year" v-model="form.year" />
             <div v-if="errors.year" class="text-red-500">{{ errors.year }}</div>
 
@@ -54,7 +54,7 @@ const submit = () => {
 
           <button class="mt-4 w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             type="submit">
-            Submit
+            {{ $t('buttons.submit') }}
           </button>
         </form>
       </div>

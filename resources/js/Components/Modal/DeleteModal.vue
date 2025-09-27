@@ -1,6 +1,9 @@
 <script setup>
 import Modal from '@/Components/Modal.vue'
 import { Link } from '@inertiajs/vue3'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   show: Boolean,
@@ -53,7 +56,7 @@ const closeModal = () => emit('close')
           @click.prevent="closeModal"
           class="mt-2 text-blue-500 hover:bg-blue-100 font-bold py-2 px-4 rounded"
         >
-          Cancel
+        {{ $t('buttons.cancel') }}
         </button>
       </div>
     </div>

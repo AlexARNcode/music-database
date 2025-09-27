@@ -25,7 +25,7 @@ function submit() {
   <AppLayout title="Create a new album">
     <FlashMessage />
 
-    <h1 class="text-xl flex justify-center mt-3">Create New Album</h1>
+    <h1 class="text-xl flex justify-center mt-3">{{ $t('albums.create_new') }}</h1>
 
     <form @submit.prevent="submit">
       <div class="flex justify-center mt-3">
@@ -58,7 +58,7 @@ function submit() {
           </progress>
 
           <button class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit">Submit</button>
+            type="submit">{{ $t('buttons.submit') }}</button>
         </div>
       </div>
 
