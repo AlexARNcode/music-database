@@ -1,0 +1,51 @@
+<script setup>
+import { ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
+import DeleteModal from '@/Components/Modal/DeleteModal.vue';
+
+const props = defineProps({
+  album: Object,
+});
+
+const showModal = ref(false);
+const toggleModal = () => showModal.value = !showModal.value;
+</script>
+
+<template>
+  <div class="bg-gray-900 shadow-lg rounded p-3">
+    <div class="p-5">
+      <h3 class="text-white text-lg">{{ album.name.toUpperCase() }}</h3>
+      <p class="text-gray-400">{{ capitalizeFirstLowercaseRest(album.artist) }}</p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-evenly w-full mt-4 space-x-2">
+      <Link :href="route('album-show', album)">
+        <button class="px-3 py-1 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 transition">
+          Show
+        </button>
+      </Link>
+
+      <Link :href="route('album-edit', album)">
+        <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-500 transition">
+          Edit
+        </button>
+      </Link>
+
+      <button @click="toggleModal"
+              class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition">
+        Delete
+      </button>
+    </div>
+
+    <DeleteModal
+    :show="showModal"
+    title="Delete Album"
+    :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
+    :delete-url="route('album-delete', album)"
+    delete-label="Yes, delete this album"
+    @close="toggleModal"
+    />
+  </div>
+</template>

@@ -2,12 +2,11 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
 import { Link } from '@inertiajs/vue3';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPenToSquare, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Modal from '@/Components/Modal.vue';
-import { ref } from 'vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
+import Card from '@/Components/Album/Card.vue';
 
 library.add(faPenToSquare, faTrash, faMagnifyingGlass);
 
@@ -15,22 +14,6 @@ const props = defineProps({
   albums: Object,
   message: Object,
 });
-
-const showModal = ref(false);
-const albumToDelete = ref(null);
-
-const showDeleteConfirmationModal = (album) => {
-  albumToDelete.value = album;
-  toggleDeleteConfirmationModal()
-}
-
-const hideDeleteConfirmationModal = () => {
-  toggleDeleteConfirmationModal()
-}
-
-const toggleDeleteConfirmationModal = () => {
-  showModal.value = !showModal.value;
-}
 </script>
 
 <template>
@@ -74,40 +57,7 @@ const toggleDeleteConfirmationModal = () => {
         <section class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <!-- Album list -->
           <div v-for="album in props.albums">
-            <div class="bg-gray-900 shadow-lg rounded p-3">
-              <div class="group relative">
-                <img class="w-full md:w-72 block rounded" :src="`/storage/${album.image}`" alt="" />
-                <Link :href="route('album-show', album)">
-                <div
-                  class="absolute bg-black rounded bg-opacity-0 group-hover:bg-opacity-60 w-full h-full top-0 flex items-center group-hover:opacity-100 transition justify-evenly">
-
-                  <!-- Edit button -->
-                  <Link :href="route('album-edit', album)">
-                  <button
-                    class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
-                    <font-awesome-icon icon="pen-to-square" />
-                  </button>
-                  </Link>
-
-                  <!-- Show button -->
-                  <Link :href="route('album-show', album)" method="get" as="button" type="button"
-                    class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
-                  <font-awesome-icon icon="magnifying-glass" />
-                  </Link>
-
-                  <!-- Delete button -->
-                  <button @click.prevent="showDeleteConfirmationModal(album)"
-                    class="hover:scale-110 text-white opacity-0 transform translate-y-3 group-hover:translate-y-0 group-hover:opacity-100 transition">
-                    <font-awesome-icon icon="trash" />
-                  </button>
-                </div>
-                </Link>
-              </div>
-              <div class="p-5">
-                <h3 class="text-white text-lg">{{ album.name.toUpperCase() }}</h3>
-                <p class="text-gray-400">{{ capitalizeFirstLowercaseRest(album.artist) }}</p>
-              </div>
-            </div>
+            <Card :album="album" />
           </div>
         </section>
       </div>
