@@ -24,25 +24,5 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::prefix('albums')->group(function () {
-    Route::get('/list', [AlbumController::class, 'index'])
-        ->name('album-list');
-
-    Route::get('/show/{album}', [AlbumController::class, 'show'])
-        ->name('album-show');
-
-    Route::get('/create', [AlbumController::class, 'create'])
-        ->name('album-create');
-
-    Route::post('/store', [AlbumController::class, 'store'])
-        ->name('album-store');
-
-    Route::get('/edit/{album}', [AlbumController::class, 'edit'])
-        ->name('album-edit');
-
-    Route::post('/update', [AlbumController::class, 'update'])
-        ->name('album-update');
-
-    Route::delete('/delete/{album}', [AlbumController::class, 'delete'])
-        ->name('album-delete');
-})->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
+    ->resource('albums', AlbumController::class);

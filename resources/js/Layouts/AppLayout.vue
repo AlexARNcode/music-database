@@ -49,15 +49,15 @@ const logout = () => {
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <NavLink 
-                        :href="route('album-list')" 
-                        :active="route().current('album-list')" 
+                        :href="route('albums.index')" 
+                        :active="route().current('albums.index')" 
                         class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
                     >
                         {{ $t('albums.title') }}
                     </NavLink>
                     <NavLink 
-                        :href="route('album-create')" 
-                        :active="route().current('album-create')" 
+                        :href="route('albums.create')" 
+                        :active="route().current('albums.create')" 
                         class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
                     >
                         {{ $t('albums.create_new') }}

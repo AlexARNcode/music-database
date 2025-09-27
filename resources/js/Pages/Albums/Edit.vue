@@ -20,7 +20,7 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post(route('album-update'), form);
+  form.post(route('albums.update'), form);
 };
 </script>
 
@@ -30,7 +30,7 @@ const submit = () => {
 
     <div class="mb-4">
        <Link
-        :href="route('album-list')"
+        :href="route('albums.index')"
         class="text-blue-500 hover:underline"
       >
         &larr; {{ $t('albums.back_to_list') }}
