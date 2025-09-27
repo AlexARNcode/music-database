@@ -63,9 +63,9 @@ const toggleDeleteConfirmationModal = () => {
 
     <div class="flex justify-center mt-4">
       <ul class="list-disc">
-        <li>Year: {{ album.year }}</li>
-        <li>Label: {{ album.label }}</li>
-        <li>Producer: {{ album.producer }}</li>
+        <li>{{ $t('albums.year') }}: {{ album.year }}</li>
+        <li>{{ $t('albums.label') }}: {{ album.label }}</li>
+        <li>{{ $t('albums.producer') }}: {{ album.producer }}</li>
       </ul>
     </div>
 
@@ -83,6 +83,5 @@ const toggleDeleteConfirmationModal = () => {
         <font-awesome-icon icon="trash" class="ml-4 text-blue-500 hover:text-blue-600" />
       </button>
     </div>
-
   </AppLayout>
 </template>

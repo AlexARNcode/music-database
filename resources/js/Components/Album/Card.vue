@@ -23,19 +23,19 @@ const toggleModal = () => showModal.value = !showModal.value;
     <div class="flex justify-evenly w-full mt-4 space-x-2">
       <Link :href="route('album-show', album)">
         <button class="px-3 py-1 bg-gray-800 text-white text-sm rounded hover:bg-gray-700 transition">
-          Show
+          {{ $t('buttons.show') }}
         </button>
       </Link>
 
       <Link :href="route('album-edit', album)">
         <button class="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-500 transition">
-          Edit
+            {{ $t('buttons.edit') }}
         </button>
       </Link>
 
       <button @click="toggleModal"
               class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition">
-        Delete
+            {{ $t('buttons.delete') }}
       </button>
     </div>
 
