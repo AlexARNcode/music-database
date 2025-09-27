@@ -16,7 +16,7 @@ const toggleModal = () => showModal.value = !showModal.value;
   <div
     class="bg-gray-900 shadow-lg rounded p-3 hover:shadow-xl transition cursor-default"
   >
-    <Link :href="route('album-show', album)" class="block group cursor-pointer">
+    <Link :href="route('albums.show', album)" class="block group cursor-pointer">
       <img
         :src="`/storage/${album.image}`"
         :alt="`Cover of album ${album.name}`"
@@ -32,7 +32,7 @@ const toggleModal = () => showModal.value = !showModal.value;
     <!-- Action Buttons -->
     <div class="flex justify-evenly w-full mt-4 space-x-2">
       <Link
-        :href="route('album-edit', album)"
+        :href="route('albums.edit', album)"
         class="flex-1"
         @click.stop
       >
@@ -57,7 +57,7 @@ const toggleModal = () => showModal.value = !showModal.value;
       :show="showModal"
       title="Delete Album"
       :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
-      :delete-url="route('album-delete', album)"
+      :delete-url="route('albums.destroy', album)"
       delete-label="Yes, delete this album"
       @close="toggleModal"
     />

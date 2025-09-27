@@ -11,10 +11,10 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $albums = Album::all()->where('deleted_at', null);
+        $albums = Album::all();
 
         return Inertia::render('Albums/Index', [
-            'albums' => $albums
+            'albums' => $albums,
         ]);
     }
 
@@ -25,56 +25,55 @@ class AlbumController extends Controller
 
     public function store(StoreAlbumRequest $request)
     {
-        $image_path = null;
+        $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $image_path = $request->file('image')->store('images', 'public');
+            $imagePath = $request->file('image')->store('images', 'public');
         }
 
         Album::create([
-            'artist'    => $request->get('artist'),
-            'name'      => $request->get('name'),
-            'year'      => $request->get('year'),
-            'label'     => $request->get('label'),
-            'producer'  => $request->get('producer'),
-            'image'     => $image_path,
+            'artist'   => $request->artist,
+            'name'     => $request->name,
+            'year'     => $request->year,
+            'label'    => $request->label,
+            'producer' => $request->producer,
+            'image'    => $imagePath,
         ]);
 
-        return redirect('/albums/create')->with('message', 'Album successfully added!');
+        return redirect()->route('albums.create')->with('message', 'Album successfully added!');
     }
 
     public function show(Album $album)
     {
-        return Inertia::render('Albums/Show', ['album' => $album]);
+        return Inertia::render('Albums/Show', [
+            'album' => $album,
+        ]);
     }
-
 
     public function edit(Album $album)
     {
-        return Inertia::render('Albums/Edit', ['album' => $album]);
+        return Inertia::render('Albums/Edit', [
+            'album' => $album,
+        ]);
     }
 
-
-    public function update(UpdateAlbumRequest $request)
+    public function update(UpdateAlbumRequest $request, Album $album)
     {
-        Album::find($request->get('id'))
-            ->update([
-                'artist'    => $request->get('artist'),
-                'name'      => $request->get('name'),
-                'year'      => $request->get('year'),
-                'image'     => $request->get('image'),
-                'label'     => $request->get('label'),
-                'producer'  => $request->get('producer'),
-            ]);
+        $data = $request->only(['artist', 'name', 'year', 'label', 'producer']);
 
-            return redirect()->back()->with('message', 'Album successfully updated!');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $album->update($data);
+
+        return redirect()->route('albums.edit', $album)->with('message', 'Album successfully updated!');
     }
 
-
-    public function delete(Album $album)
+    public function destroy(Album $album)
     {
-       $album->delete();
+        $album->delete();
 
-       return redirect('/albums/list')->with('message', 'Album successfully deleted!');
+        return redirect()->route('albums.index')->with('message', 'Album successfully deleted!');
     }
 }

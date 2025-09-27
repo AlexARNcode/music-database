@@ -18,7 +18,7 @@ const toggleModal = () => (showModal.value = !showModal.value);
   <AppLayout :title="album.name.toUpperCase()">
     <div class="mb-4">
        <Link
-        :href="route('album-list')"
+        :href="route('albums.index')"
         class="text-blue-500 hover:underline"
       >
         &larr; {{ $t('albums.back_to_list') }}
@@ -59,7 +59,7 @@ const toggleModal = () => (showModal.value = !showModal.value);
 
       <!-- Action Buttons -->
       <div class="flex justify-center space-x-6 mt-10">
-        <Link :href="route('album-edit', album)">
+        <Link :href="route('albums.edit', album)">
           <button
             class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-5 rounded transition"
             type="button"
@@ -82,7 +82,7 @@ const toggleModal = () => (showModal.value = !showModal.value);
         :show="showModal"
         title="Delete Album"
         :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
-        :delete-url="route('album-delete', album)"
+        :delete-url="route('albums.destroy', album)"
         delete-label="Yes, delete this album"
         @close="toggleModal"
       />
