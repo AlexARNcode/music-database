@@ -27,7 +27,17 @@ class StoreAlbumRequest extends FormRequest
             'year'      => 'required|integer',
             'label'     => 'nullable|string',
             'producer'  => 'nullable|string',
-            'image'     => 'nullable|image|mimes:jpeg,jpg,png,gif,svg'
+            'image'     => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:2048'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'artist.required' => 'The artist name is required.',
+            'name.required' => 'The album name is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.max' => 'The image must not be larger than 2MB.',
         ];
     }
 }

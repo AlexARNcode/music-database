@@ -20,7 +20,9 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post(route('albums.update'), form);
+  form.post(
+    route('albums.update'), form
+  );
 };
 </script>
 

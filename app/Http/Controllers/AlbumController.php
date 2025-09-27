@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Http\Requests\UpdateAlbumRequest;
 use App\Models\Album;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AlbumController extends Controller
 {
     public function index()
     {
-        $albums = Album::all();
+        $albums = Album::query()->latest()->get();
 
         return Inertia::render('Albums/Index', [
             'albums' => $albums,
@@ -58,17 +59,24 @@ class AlbumController extends Controller
     }
 
     public function update(UpdateAlbumRequest $request, Album $album)
-    {
-        $data = $request->only(['artist', 'name', 'year', 'label', 'producer']);
+{
+    $data = $request->only(['artist', 'name', 'year', 'label', 'producer']);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('images', 'public');
+    if ($request->hasFile('image')) {
+
+        if ($album->image) {
+            Storage::disk('public')->delete($album->image);
         }
 
-        $album->update($data);
-
-        return redirect()->route('albums.edit', $album)->with('message', 'Album successfully updated!');
+    
+        $data['image'] = $request->file('image')->store('images', 'public');
     }
+
+    $album->update($data);
+
+    return redirect()->route('albums.edit', $album)->with('message', 'Album successfully updated!');
+}
+
 
     public function destroy(Album $album)
     {
