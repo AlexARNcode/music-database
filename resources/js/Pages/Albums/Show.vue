@@ -1,87 +1,91 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faPenToSquare, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@inertiajs/vue3';
-import Modal from '@/Components/Modal.vue';
 import { ref } from 'vue';
+import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
+import DeleteModal from '@/Components/Modal/DeleteModal.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const props = defineProps({
   album: Object,
 });
 
-library.add(faPenToSquare, faTrash);
-
 const showModal = ref(false);
-const albumToDelete = ref(null);
-
-const showDeleteConfirmationModal = (album) => {
-  albumToDelete.value = album;
-  toggleDeleteConfirmationModal()
-}
-
-const hideDeleteConfirmationModal = () => {
-  toggleDeleteConfirmationModal()
-}
-
-const toggleDeleteConfirmationModal = () => {
-  showModal.value = !showModal.value;
-}
+const toggleModal = () => (showModal.value = !showModal.value);
 </script>
 
 <template>
-  <AppLayout title="Show album">
-    <Modal :show="showModal">
-      <div class="p-8">
-        <p class="text-center">
-          Delete the album <span class="font-bold">{{ capitalizeFirstLowercaseRest(albumToDelete.name) }}</span>
-          by <span class="font-bold">{{ capitalizeFirstLowercaseRest(albumToDelete.artist) }}</span>?
-        </p>
-        <div class="flex flex-col">
-          <Link :href="route('album-delete', albumToDelete)" @click.prevent="hideDeleteConfirmationModal"
-            method="delete" as="button" type="button"
-            class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Delete
-          </Link>
-
-          <button @click.prevent="hideDeleteConfirmationModal"
-            class="mt-2 text-blue-500 hover:bg-blue-100 font-bold py-2 px-4 rounded" type="submit">
-            Cancel
-          </button>
-        </div>
-      </div>
-    </Modal>
-
-    <h1 class="text-xl flex justify-center mt-3">{{ album.name.toUpperCase() }}</h1>
-    <h2 class="text-l text-gray-800 flex justify-center">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
-
-    <div class="flex justify-center mt-4">
-      <img class="sm:w-1/2 lg:w-1/5 block rounded" :src="`/storage/${album.image}`" alt="" />
-    </div>
-
-    <div class="flex justify-center mt-4">
-      <ul class="list-disc">
-        <li>{{ $t('albums.year') }}: {{ album.year }}</li>
-        <li>{{ $t('albums.label') }}: {{ album.label }}</li>
-        <li>{{ $t('albums.producer') }}: {{ album.producer }}</li>
-      </ul>
-    </div>
-
-    <div class="flex justify-center mt-8">
-      <!-- Edit button -->
-      <Link :href="route('album-edit', album)">
-      <button>
-        <font-awesome-icon icon="pen-to-square" class="text-blue-500 hover:text-blue-600" />
-      </button>
+  <AppLayout :title="album.name.toUpperCase()">
+    <div class="mb-4">
+       <Link
+        :href="route('album-list')"
+        class="text-blue-500 hover:underline"
+      >
+        &larr; {{ $t('albums.back_to_list') }}
       </Link>
+    </div>
+
+    <div class="max-w-4xl mx-auto p-6 bg-gray-900 rounded-lg shadow-lg mt-6">
+      <!-- Album Cover -->
+      <img
+        :src="`/storage/${album.image}`"
+        :alt="`Cover of album ${album.name}`"
+        class="mx-auto rounded-md shadow-lg max-w-full max-h-96 object-contain"
+      />
 
 
-      <!-- Delete button -->
-      <button @click.prevent="showDeleteConfirmationModal(album)">
-        <font-awesome-icon icon="trash" class="ml-4 text-blue-500 hover:text-blue-600" />
-      </button>
+
+      <!-- Album Info -->
+      <div class="mt-6 text-center">
+        <h1 class="text-3xl font-bold text-white">{{ album.name.toUpperCase() }}</h1>
+        <h2 class="text-xl text-gray-400 mt-1">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
+      </div>
+
+      <!-- Additional Details -->
+      <ul class="mt-6 space-y-2 text-gray-300 text-sm sm:text-base max-w-md mx-auto">
+        <li>
+          <font-awesome-icon icon="calendar" class="mr-2 text-blue-400" />
+          <strong>{{ $t('albums.year') }}:</strong> {{ album.year }}
+        </li>
+        <li>
+          <font-awesome-icon icon="building" class="mr-2 text-blue-400" />
+          <strong>{{ $t('albums.label') }}:</strong> {{ album.label }}
+        </li>
+        <li>
+          <font-awesome-icon icon="user" class="mr-2 text-blue-400" />
+          <strong>{{ $t('albums.producer') }}:</strong> {{ album.producer }}
+        </li>
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-center space-x-6 mt-10">
+        <Link :href="route('album-edit', album)">
+          <button
+            class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-5 rounded transition"
+            type="button"
+          >
+            <span>{{ $t('buttons.edit') }}</span>
+          </button>
+        </Link>
+
+        <button
+          @click="toggleModal"
+          class="flex items-center space-x-2 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 px-5 rounded transition"
+          type="button"
+        >
+          <span>{{ $t('buttons.delete') }}</span>
+        </button>
+      </div>
+
+      <!-- Delete Confirmation Modal -->
+      <DeleteModal
+        :show="showModal"
+        title="Delete Album"
+        :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
+        :delete-url="route('album-delete', album)"
+        delete-label="Yes, delete this album"
+        @close="toggleModal"
+      />
     </div>
   </AppLayout>
 </template>

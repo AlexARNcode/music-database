@@ -1,10 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
 import { Link } from '@inertiajs/vue3';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPenToSquare, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import Modal from '@/Components/Modal.vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
 import Card from '@/Components/Album/Card.vue';
 
@@ -17,7 +15,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <AppLayout title="List of albums">
+  <AppLayout :title="$t('albums.list')">
     <FlashMessage />
 
     <h1 class="text-xl flex justify-center mt-3">{{ $t('albums.title')}}</h1>

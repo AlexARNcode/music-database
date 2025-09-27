@@ -22,7 +22,7 @@ function submit() {
 </script>
 
 <template>
-  <AppLayout title="Create a new album">
+  <AppLayout :title="$t('albums.create_new')">
     <FlashMessage />
 
     <h1 class="text-xl flex justify-center mt-3">{{ $t('albums.create_new') }}</h1>
