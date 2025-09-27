@@ -6,7 +6,11 @@
       "add":"You can add albums here.",
       "label":"Label",
       "year":"Year",
-      "producer": "Producer"
+      "producer": "Producer",
+      "back_to_list": "Back to album list",
+      "list": "List of albums",
+      "edit": "Edit album {name} by {artist}",
+      "create_new": "Create new album"
     },
     "buttons": {
       "show": "Show",
