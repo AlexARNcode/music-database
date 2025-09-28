@@ -14,7 +14,7 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $albums = Album::query()->with('artist')->latest()->get();
+        $albums = Album::with('artist')->latest()->paginate(9);
 
         return Inertia::render('Albums/Index', [
             'albums' => $albums,
