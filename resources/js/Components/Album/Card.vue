@@ -25,7 +25,7 @@ const toggleModal = () => showModal.value = !showModal.value;
 
       <div class="p-5">
         <h3 class="text-white text-lg">{{ album.name.toUpperCase() }}</h3>
-        <p class="text-gray-400">{{ capitalizeFirstLowercaseRest(album.artist) }}</p>
+        <p class="text-gray-400">{{ capitalizeFirstLowercaseRest(album.artist.name) }}</p>
       </div>
     </Link>
 
@@ -56,7 +56,7 @@ const toggleModal = () => showModal.value = !showModal.value;
     <DeleteModal
       :show="showModal"
       title="Delete Album"
-      :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
+      :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist.name)}?`"
       :delete-url="route('albums.destroy', album)"
       delete-label="Yes, delete this album"
       @close="toggleModal"
