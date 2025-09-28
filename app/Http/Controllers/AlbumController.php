@@ -41,7 +41,7 @@ class AlbumController extends Controller
             'image'    => $imagePath,
         ]);
 
-        return redirect()->route('albums.create')->with('message', 'Album successfully added!');
+        return redirect()->route('albums.index')->with('message', 'Album successfully added!');
     }
 
     public function show(Album $album)
