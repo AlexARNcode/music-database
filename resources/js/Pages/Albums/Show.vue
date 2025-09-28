@@ -10,6 +10,7 @@ const props = defineProps({
   album: Object,
 });
 
+
 const showModal = ref(false);
 const toggleModal = () => (showModal.value = !showModal.value);
 </script>
@@ -38,7 +39,7 @@ const toggleModal = () => (showModal.value = !showModal.value);
       <!-- Album Info -->
       <div class="mt-6 text-center">
         <h1 class="text-3xl font-bold text-white">{{ album.name.toUpperCase() }}</h1>
-        <h2 class="text-xl text-gray-400 mt-1">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
+        <h2 class="text-xl text-gray-400 mt-1">{{ capitalizeFirstLowercaseRest(album.artist.name) }}</h2>
       </div>
 
       <!-- Additional Details -->
@@ -81,7 +82,7 @@ const toggleModal = () => (showModal.value = !showModal.value);
       <DeleteModal
         :show="showModal"
         title="Delete Album"
-        :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist)}?`"
+        :message="`Delete the album '${capitalizeFirstLowercaseRest(album.name)}' by ${capitalizeFirstLowercaseRest(album.artist.name)}?`"
         :delete-url="route('albums.destroy', album)"
         delete-label="Yes, delete this album"
         @close="toggleModal"
