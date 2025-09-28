@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Album\CreateAlbum;
+use App\Actions\Album\UpdateAlbum;
 use App\Http\Requests\StoreAlbumRequest;
-use App\Jobs\SendAlbumCreatedEmail;
 use App\Models\Album;
-use App\Models\Artist;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class AlbumController extends Controller
@@ -26,24 +25,9 @@ class AlbumController extends Controller
         return Inertia::render('Albums/Create');
     }
 
-    public function store(StoreAlbumRequest $request)
+    public function store(StoreAlbumRequest $request, CreateAlbum $createAlbum)
     {
-        $imagePath = null;
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
-
-        $album = Album::create([
-            'artist_id' => Artist::query()->first()?->id, // TODO: WIP
-            'name'      => $request->name,
-            'year'      => $request->year,
-            'label'     => $request->label,
-            'producer'  => $request->producer,
-            'image'     => $imagePath,
-        ]);
-
-        SendAlbumCreatedEmail::dispatch($album);
+        $createAlbum->execute($request);
 
         return redirect()->route('albums.index')->with('message', 'Album successfully added!');
     }
@@ -66,21 +50,13 @@ class AlbumController extends Controller
         ]);
     }
 
-    public function update(Request $request, Album $album)
+    public function update(Request $request, Album $album, UpdateAlbum $updateAlbum)
     {
-        $data = $request->all();
-
-        if ($request->hasFile('image')) {
-            if ($album->image) {
-                Storage::disk('public')->delete($album->image);
-            }
-            $data['image'] = $request->file('image')->store('images', 'public');
-        }
-
-        $album->update($data);
+        $updateAlbum->execute($request, $album);
 
         return redirect()->route('albums.edit', $album)->with('message', 'Album successfully updated!');
     }
+
 
 
     public function destroy(Album $album)
