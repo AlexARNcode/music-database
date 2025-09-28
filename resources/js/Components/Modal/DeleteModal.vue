@@ -1,9 +1,6 @@
 <script setup>
 import Modal from '@/Components/Modal.vue'
-import { Link } from '@inertiajs/vue3'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
+import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
   show: Boolean,
@@ -28,6 +25,15 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const closeModal = () => emit('close')
+
+const form = useForm({})
+
+const deleteAlbum = () => {
+  form.delete(props.deleteUrl, {
+    preserveScroll: true,
+    onSuccess: () => emit('close'),
+  })
+}
 </script>
 
 <template>
@@ -42,15 +48,12 @@ const closeModal = () => emit('close')
       </p>
 
       <div class="flex flex-col mt-6">
-        <Link
-          :href="deleteUrl"
-          method="delete"
-          as="button"
-          type="button"
+        <button
+          @click.prevent="deleteAlbum"
           class="mt-2 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-center"
         >
-          {{ deleteLabel }}
-        </Link>
+  {{ deleteLabel }}
+</button>
 
         <button
           @click.prevent="closeModal"
