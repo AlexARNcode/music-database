@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAlbumRequest;
-use App\Http\Requests\UpdateAlbumRequest;
+use App\Jobs\SendAlbumCreatedEmail;
 use App\Models\Album;
 use App\Models\Artist;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class AlbumController extends Controller
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
-        Album::create([
+        $album = Album::create([
             'artist_id' => Artist::query()->first()?->id, // TODO: WIP
             'name'      => $request->name,
             'year'      => $request->year,
@@ -42,6 +42,8 @@ class AlbumController extends Controller
             'producer'  => $request->producer,
             'image'     => $imagePath,
         ]);
+
+        SendAlbumCreatedEmail::dispatch($album);
 
         return redirect()->route('albums.index')->with('message', 'Album successfully added!');
     }
