@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Album;
 use Illuminate\Database\Seeder;
+use  App\Models\Artist;
 
 class AlbumSeeder extends Seeder
 {
@@ -12,8 +13,12 @@ class AlbumSeeder extends Seeder
      */
     public function run(): void
     {
+        if (Artist::count() === 0) {
+            Artist::factory()->count(20)->create();
+        }
+
         Album::factory()
-            ->count(20)
+            ->count(50)
             ->create();
     }
 }

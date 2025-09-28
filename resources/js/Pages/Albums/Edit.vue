@@ -11,7 +11,7 @@ const props = defineProps({
 
 const form = useForm({
   id: props.album.id,
-  artist: props.album.artist,
+  artist_id: props.album.artist.id,
   name: props.album.name,
   year: props.album.year,
   label: props.album.label,
@@ -20,14 +20,12 @@ const form = useForm({
 });
 
 const submit = () => {
-  form.post(
-    route('albums.update'), form
-  );
+  form.put(route('albums.update', form.id));
 };
 </script>
 
 <template>
-  <AppLayout :title="$t('albums.edit', {name: album.name, artist: album.artist})">
+  <AppLayout :title="$t('albums.edit', {name: album.name, artist: album.artist.name})">
     <FlashMessage />
 
     <div class="mb-4">
@@ -40,7 +38,7 @@ const submit = () => {
     </div>
 
     <h1 class="text-xl flex justify-center mt-3">{{ album.name.toUpperCase() }}</h1>
-    <h2 class="text-lg text-gray-400 flex justify-center mb-6">{{ capitalizeFirstLowercaseRest(album.artist) }}</h2>
+    <h2 class="text-lg text-gray-400 flex justify-center mb-6">{{ capitalizeFirstLowercaseRest(album.artist.name) }}</h2>
 
     <div class="flex justify-center mb-6">
       <img

@@ -13,7 +13,7 @@ class Album extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'artist',
+        'artist_id',
         'name', 
         'year', 
         'image', 
@@ -24,5 +24,10 @@ class Album extends Model
     public function genres(): BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
+    }
+
+    public function artist()
+    {
+        return $this->belongsTo(Artist::class);
     }
 }
