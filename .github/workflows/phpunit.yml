@@ -53,18 +53,17 @@ jobs:
     - name: Setup environment file
       run: |
         cp .env.testing .env
-        php artisan key:generate
-        # Adjust DB env variables to match MySQL service
         php -r "
           \$env = file_get_contents('.env');
           \$env = preg_replace('/DB_CONNECTION=.*/', 'DB_CONNECTION=mysql', \$env);
-          \$env = preg_replace('/DB_HOST=.*/', '127.0.0.1', \$env);
-          \$env = preg_replace('/DB_PORT=.*/', '3306', \$env);
-          \$env = preg_replace('/DB_DATABASE=.*/', 'laravel', \$env);
-          \$env = preg_replace('/DB_USERNAME=.*/', 'sail', \$env);
-          \$env = preg_replace('/DB_PASSWORD=.*/', 'password', \$env);
+          \$env = preg_replace('/DB_HOST=.*/', 'DB_HOST=127.0.0.1', \$env);
+          \$env = preg_replace('/DB_PORT=.*/', 'DB_PORT=3306', \$env);
+          \$env = preg_replace('/DB_DATABASE=.*/', 'DB_DATABASE=laravel', \$env);
+          \$env = preg_replace('/DB_USERNAME=.*/', 'DB_USERNAME=sail', \$env);
+          \$env = preg_replace('/DB_PASSWORD=.*/', 'DB_PASSWORD=password', \$env);
           file_put_contents('.env', \$env);
         "
+        php artisan key:generate
 
     - name: Wait for MySQL to be ready
       run: |
