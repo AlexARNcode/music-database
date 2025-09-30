@@ -29,7 +29,7 @@ class AlbumController extends Controller
     {
         $createAlbum->execute($request);
 
-        return redirect()->route('albums.index')->with('message', 'Album successfully added!');
+        return redirect()->route('albums.index')->with('message', 'albums.created'); 
     }
 
     public function show(Album $album)
@@ -54,7 +54,7 @@ class AlbumController extends Controller
     {
         $updateAlbum->execute($request, $album);
 
-        return redirect()->route('albums.edit', $album)->with('message', 'Album successfully updated!');
+        return redirect()->route('albums.edit', $album)->with('message', 'albums.updated');
     }
 
 
@@ -63,6 +63,6 @@ class AlbumController extends Controller
     {
         $album->delete();
 
-        return redirect()->route('albums.index')->with('message', 'Album successfully deleted!');
+        return redirect()->route('albums.index')->with('message', 'albums.deleted');
     }
 }

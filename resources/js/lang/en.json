@@ -10,7 +10,10 @@
       "back_to_list": "Back to album list",
       "list": "List of albums",
       "edit": "Edit album {name} by {artist}",
-      "create_new": "Create new album"
+      "create_new": "Create new album",
+      "created": "Album successfully added!",
+      "updated": "Album successfully updated!",
+      "deleted": "Album successfully deleted!"
     },
     "buttons": {
       "show": "Show",
