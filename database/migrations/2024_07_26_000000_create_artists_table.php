@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('artists', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->text('bio')->nullable();
             $table->string('country')->nullable();
             $table->timestamps();
@@ -20,5 +20,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('artists');
+        
     }
 };
