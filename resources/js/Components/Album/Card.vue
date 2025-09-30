@@ -18,7 +18,7 @@ const toggleModal = () => showModal.value = !showModal.value;
   >
     <Link :href="route('albums.show', album)" class="block group cursor-pointer">
       <img
-        :src="`/storage/${album.image}`"
+        :src="album.image ? `/storage/${album.image}` : '/storage/images/default/default-album.png'"
         :alt="`Cover of album ${album.name}`"
         class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
       />

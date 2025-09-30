@@ -1,5 +1,6 @@
 {
     "albums": {
+      "artist": "Artist",
       "title": "Albums",
       "delete_confirm": "Are you sure you want to delete {name} by {artist}?",
       "not_any": "There is currently no album in the database.",
@@ -13,7 +14,11 @@
       "create_new": "Create new album",
       "created": "Album successfully added!",
       "updated": "Album successfully updated!",
-      "deleted": "Album successfully deleted!"
+      "deleted": "Album successfully deleted!",
+      "create_new_artist": "Create new artist",
+      "select_artist": "Select artist",
+      "image": "Album cover image",
+      "name": "Album name"
     },
     "buttons": {
       "show": "Show",

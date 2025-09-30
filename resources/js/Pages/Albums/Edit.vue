@@ -1,4 +1,5 @@
 <script setup>
+import Back from '@/Components/Back.vue';
 import FlashMessage from '@/Components/FlashMessage.vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
@@ -28,14 +29,7 @@ const submit = () => {
   <AppLayout :title="$t('albums.edit', {name: album.name, artist: album.artist.name})">
     <FlashMessage />
 
-    <div class="mb-4">
-       <Link
-        :href="route('albums.index')"
-        class="text-blue-500 hover:underline"
-      >
-        &larr; {{ $t('albums.back_to_list') }}
-      </Link>
-    </div>
+    <Back routeName="albums.index" />
 
     <h1 class="text-xl flex justify-center mt-3">{{ album.name.toUpperCase() }}</h1>
     <h2 class="text-lg text-gray-400 flex justify-center mb-6">{{ capitalizeFirstLowercaseRest(album.artist.name) }}</h2>
@@ -43,7 +37,7 @@ const submit = () => {
     <div class="flex justify-center mb-6">
       <img
         class="sm:w-1/2 lg:w-1/5 rounded shadow-lg"
-        :src="`/storage/${album.image}`"
+        :src="album.image ? `/storage/${album.image}` : '/storage/images/default/default-album.png'"
         :alt="`Cover of album ${album.name}`"
       />
     </div>

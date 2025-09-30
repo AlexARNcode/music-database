@@ -17,9 +17,17 @@ class CreateAlbum
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
+        $artistId = $request->artist_id;
+
+        if ($this->isNewArtist($request)) {
+            $artist = Artist::create([
+                'name' => $request->new_artist_name,
+            ]);
+            $artistId = $artist->id;
+        }
 
         $album = Album::create([
-            'artist_id' => Artist::query()->first()?->id, // TODO: replace with real artist
+            'artist_id' => $artistId,
             'name'      => $request->name,
             'year'      => $request->year,
             'label'     => $request->label,
@@ -27,12 +35,13 @@ class CreateAlbum
             'image'     => $imagePath,
         ]);
 
-        logger('created');
-
         SendAlbumCreatedEmail::dispatch($album);
 
-        logger('dispatched');
-
         return $album;
+    }
+
+    private function isNewArtist(StoreAlbumRequest $request): bool
+    {
+        return !$request->artist_id && $request->filled('new_artist_name');
     }
 }
