@@ -6,38 +6,37 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAlbumRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    public function prepareForValidation(): void
+    {
+        if ($this->filled('new_artist_name')) {
+            $this->merge(['artist_id' => null]);
+        }
+    }
+
     public function rules(): array
     {
         return [
-            'artist_id' => 'required|integer|exists:artists,id',
-            'name'      => 'required|string',
-            'year'      => 'required|integer',
-            'label'     => 'nullable|string',
-            'producer'  => 'nullable|string',
-            'image'     => 'nullable|image|mimes:jpeg,jpg,png,gif,svg|max:2048'
+            'artist_id'       => ['nullable', 'exists:artists,id'],
+            'new_artist_name' => ['nullable', 'string', 'max:255'],
+            'name'            => ['required', 'string', 'max:255'],
+            'year'            => ['required', 'integer'],
+            'label'           => ['nullable', 'string', 'max:255'],
+            'producer'        => ['nullable', 'string', 'max:255'],
+            'image'           => ['nullable', 'image'],
         ];
     }
 
-    public function messages(): array
+    public function withValidator($validator): void
     {
-        return [
-            'artist.required' => 'The artist name is required.',
-            'name.required' => 'The album name is required.',
-            'image.image' => 'The uploaded file must be an image.',
-            'image.max' => 'The image must not be larger than 2MB.',
-        ];
+        $validator->after(function ($v) {
+            if (!$this->filled('artist_id') && !$this->filled('new_artist_name')) {
+                $v->errors()->add('artist_id', 'You must select or create an artist.');
+            }
+        });
     }
 }

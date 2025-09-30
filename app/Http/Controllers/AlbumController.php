@@ -6,6 +6,7 @@ use App\Actions\Album\CreateAlbum;
 use App\Actions\Album\UpdateAlbum;
 use App\Http\Requests\StoreAlbumRequest;
 use App\Models\Album;
+use App\Models\Artist;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,20 +23,24 @@ class AlbumController extends Controller
 
     public function create()
     {
-        return Inertia::render('Albums/Create');
+        $artists = Artist::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('Albums/Create', [
+            'artists' => $artists,
+        ]);
     }
 
     public function store(StoreAlbumRequest $request, CreateAlbum $createAlbum)
     {
         $createAlbum->execute($request);
 
-        return redirect()->route('albums.index')->with('message', 'albums.created'); 
+        return redirect()->route('albums.index')->with('message', 'albums.created');
     }
 
     public function show(Album $album)
     {
         $album->load('artist');
-        
+
         return Inertia::render('Albums/Show', [
             'album' => $album,
         ]);
@@ -56,8 +61,6 @@ class AlbumController extends Controller
 
         return redirect()->route('albums.edit', $album)->with('message', 'albums.updated');
     }
-
-
 
     public function destroy(Album $album)
     {

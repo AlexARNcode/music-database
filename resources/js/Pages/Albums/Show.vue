@@ -5,6 +5,7 @@ import { ref } from 'vue';
 import { capitalizeFirstLowercaseRest } from '@/helpers/strings';
 import DeleteModal from '@/Components/Modal/DeleteModal.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import Back from '@/Components/Back.vue';
 
 const props = defineProps({
   album: Object,
@@ -17,19 +18,12 @@ const toggleModal = () => (showModal.value = !showModal.value);
 
 <template>
   <AppLayout :title="album.name.toUpperCase()">
-    <div class="mb-4">
-       <Link
-        :href="route('albums.index')"
-        class="text-blue-500 hover:underline"
-      >
-        &larr; {{ $t('albums.back_to_list') }}
-      </Link>
-    </div>
+    <Back routeName="albums.index" />
 
     <div class="max-w-4xl mx-auto p-6 bg-gray-900 rounded-lg shadow-lg mt-6">
       <!-- Album Cover -->
       <img
-        :src="`/storage/${album.image}`"
+        :src="album.image ? `/storage/${album.image}` : '/storage/images/default/default-album.png'"
         :alt="`Cover of album ${album.name}`"
         class="mx-auto rounded-md shadow-lg max-w-full max-h-96 object-contain"
       />
