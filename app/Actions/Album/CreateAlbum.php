@@ -17,6 +17,7 @@ class CreateAlbum
             $imagePath = $request->file('image')->store('images', 'public');
         }
 
+
         $album = Album::create([
             'artist_id' => Artist::query()->first()?->id, // TODO: replace with real artist
             'name'      => $request->name,
@@ -26,7 +27,11 @@ class CreateAlbum
             'image'     => $imagePath,
         ]);
 
+        logger('created');
+
         SendAlbumCreatedEmail::dispatch($album);
+
+        logger('dispatched');
 
         return $album;
     }
