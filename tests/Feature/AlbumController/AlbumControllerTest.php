@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Enums\RoleEnum;
 use App\Models\Album;
 use App\Models\Artist;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,9 +19,12 @@ class AlbumControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        $role = Role::factory()->create(['name' => RoleEnum::ADMIN->value]);
+        $this->user = User::factory()->create(['role_id' => $role->id]);
+
         $this->actingAs($this->user);
     }
+    
 
     public function test_index_displays_albums()
     {

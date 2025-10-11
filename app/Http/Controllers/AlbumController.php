@@ -12,6 +12,11 @@ use Inertia\Inertia;
 
 class AlbumController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Album::class, 'album');
+    }
+
     public function index()
     {
         $albums = Album::with('artist')->latest()->paginate(9);
