@@ -13,27 +13,31 @@
     composer install
     ```
 
-3. **Setup environment**
+3. **Launch containers**
+   ```bash
+    ./vendor/bin/sail up -d
+    ```
+
+4. **Setup environment**
 
     ```bash
     cp .env.example .env
     ./vendor/bin/sail artisan key:generate
     ```
 
-4. **Run migrations and seeders**
+5. **Run migrations and seeders**
 
     ```bash
     ./vendor/bin/sail artisan migrate --seed
     ```
-5. **Launch application**
+    
+6. **Install frontend dependencies**
      ```bash
-    ./vendor/bin/sail up -d
-    ./vendor/bin/sail composer install
     ./vendor/bin/sail npm install
     ./vendor/bin/sail npm run dev
    ```
      
 7. **Access the application**
 
-    Open your browser at http://localhost
+    Open your browser at http://localhost/login
    Login with default user test@test.com and password test
